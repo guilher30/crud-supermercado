@@ -11,6 +11,8 @@ public class Endereco  implements Serializable{
 	private Integer idCep;
 	private Integer numero;
 	private String complemento;
+	
+	
 	public Integer getId() {
 		return id;
 	}
