@@ -13,14 +13,14 @@ public class Fornecedor implements Serializable {
 	private String nome;
 	private String cnpj;
 	private String ie;
-	private Endereco endereco;
+	private Cep cep;
 	
 
 	public Fornecedor() {
 		super();
 	}
 
-	public Fornecedor(Integer id, String nome, String cnpj, String ie, Endereco endereco) {
+	public Fornecedor(Integer id, String nome, String cnpj, String ie, Cep cep) {
 		super();
 		this.id = id;
 		this.nome = nome;
@@ -31,7 +31,7 @@ public class Fornecedor implements Serializable {
 		System.out.println("CNPJ VALIDO");
 		this.cnpj = cnpj;
 		this.ie = ie;
-		this.endereco = endereco;
+		this.cep = cep;
 		
 	}
 
@@ -67,12 +67,12 @@ public class Fornecedor implements Serializable {
 		this.ie = ie;
 	}
 
-	public Endereco getEndereco() {
-		return endereco;
+	public Cep getEndereco() {
+		return cep;
 	}
 
-	public void setEndereco(Endereco endereco) {
-		this.endereco = endereco;
+	public void setEndereco(Cep cep) {
+		this.cep = cep;
 	}
 
 	
