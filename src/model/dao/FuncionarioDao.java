@@ -9,7 +9,7 @@ public interface FuncionarioDao {
 
 	void insert(Funcionario obj);
 
-	void update(Funcionario obj);
+	void update(Funcionario obj, Integer id);
 
 	void deleteById(Integer id);
 

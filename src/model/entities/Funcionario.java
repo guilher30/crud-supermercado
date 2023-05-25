@@ -110,4 +110,44 @@ public class Funcionario implements Serializable {
 		return cpf.substring(9).equals(Integer.toString(digito1) + Integer.toString(digito2));
 	}
 
+	public boolean validarRG(String s) {
+		boolean valida;
+		try {
+		String digitoRG = s.substring(s.length() - 1);
+		int soma = 0;
+		int val = s.length();
+		int resto = 0;
+		int digito = 0;
+		String digx = "";
+	     valida = false;
+
+		for (int i = 0; i < s.length() - 1; i++) {
+			String letra = "" + s.charAt(i);
+			int n = Integer.parseInt(letra);
+			soma += (val * n);
+			val--;
+		}
+		resto = (soma % 11);
+		digito = resto;
+		if (digito == 10) {
+			digx = "X";
+		} else
+
+		{
+			digx = "" + digito;
+		}
+
+		if (digx.equalsIgnoreCase(digitoRG)) {
+			valida = true;
+		} else {
+			JOptionPane.showMessageDialog(null, "RG Inválido!!!", "Validação de RG: ", JOptionPane.WARNING_MESSAGE);
+		}
+		
+		}catch(NumberFormatException e) {
+			JOptionPane.showMessageDialog(null, "Formato invalido, digite apenas numeros!!!", "Validação de RG: ", JOptionPane.WARNING_MESSAGE);
+			valida = false;
+		}
+		return valida;
+	}
+
 }

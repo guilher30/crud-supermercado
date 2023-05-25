@@ -84,7 +84,7 @@ public class FornecedorDaoJDBC implements FornecedorDao {
 			if (obj.validarCNPJ(obj.getCnpj())) {
 				st.executeUpdate();
 			} else {
-				System.out.println("Cnpj incorreto");
+				System.out.println("Cnpj Invalido");
 			}
 
 		} catch (SQLException e) {

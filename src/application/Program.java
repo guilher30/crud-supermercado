@@ -3,6 +3,7 @@ package application;
 import model.dao.DaoFactory;
 import model.dao.FornecedorDao;
 import model.entities.Fornecedor;
+import model.entities.Funcionario;
 
 public class Program {
 
@@ -43,6 +44,9 @@ public class Program {
 		System.out.println(fornecedorDao.findById(3));
 		
 		fornecedorDao.update(f, 4);
+		
+		Funcionario funcionario = new Funcionario();
+		funcionario.validarRG("417096823");
 	}
 
 }

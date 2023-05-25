@@ -8,6 +8,8 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JOptionPane;
+
 import db.DB;
 import db.DbException;
 import model.dao.DaoFactory;
@@ -57,7 +59,7 @@ public class FuncionarioDaoJDBC implements FuncionarioDao {
 	}
 
 	@Override
-	public void update(Funcionario obj) {
+	public void update(Funcionario obj, Integer id) {
 		PreparedStatement st = null;
 		try {
 			st = conn.prepareStatement("UPDATE funcionario " + "SET Nome = ?, Rg = ?, Cpf = ?" + "WHERE Id = ?");
@@ -68,7 +70,7 @@ public class FuncionarioDaoJDBC implements FuncionarioDao {
 			if(obj.validarCPF(obj.getCpf())) {
 				st.executeUpdate();
 			}else {
-				System.out.println("CPF incorreto");
+				JOptionPane.showMessageDialog(null, "CPF INVALIDO");
 			}
 			
 
