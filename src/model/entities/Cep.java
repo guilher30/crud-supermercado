@@ -75,4 +75,10 @@ public class Cep implements Serializable {
 		this.lougradouro = lougradouro;
 	}
 
+	@Override
+	public String toString() {
+		return "CEP: " + numeroCep + "\nUF" + uf + "\nCidade: " + cidade + "\nBairro: " + bairro
+				+ "\nLougradouro: " + lougradouro;
+	}
+
 }

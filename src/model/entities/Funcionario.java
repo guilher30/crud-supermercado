@@ -84,7 +84,7 @@ public class Funcionario implements Serializable {
 		return "Funcionario [id=" + id + ", nome=" + nome + ", rg=" + rg + ", cpf=" + cpf + "]";
 	}
 
-	public static boolean validarCPF(String cpf) {
+	public boolean validarCPF(String cpf) {
 		if (cpf == null || cpf.length() != 11 || !cpf.matches("\\d{11}")) {
 			return false;
 		}

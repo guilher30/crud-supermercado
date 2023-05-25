@@ -14,13 +14,15 @@ public class Fornecedor implements Serializable {
 	private String cnpj;
 	private String ie;
 	private Cep cep;
+	private Integer numero;
+	private String complemento;
 	
 
 	public Fornecedor() {
 		super();
 	}
 
-	public Fornecedor(Integer id, String nome, String cnpj, String ie, Cep cep) {
+	public Fornecedor(Integer id, String nome, String cnpj, String ie, Cep cep, Integer numero, String complemento) {
 		super();
 		this.id = id;
 		this.nome = nome;
@@ -32,6 +34,9 @@ public class Fornecedor implements Serializable {
 		this.cnpj = cnpj;
 		this.ie = ie;
 		this.cep = cep;
+		this.numero = numero;
+		this.complemento = complemento;
+		
 		
 	}
 
@@ -67,15 +72,33 @@ public class Fornecedor implements Serializable {
 		this.ie = ie;
 	}
 
-	public Cep getEndereco() {
+	public Integer getNumero() {
+		return numero;
+	}
+
+	public void setNumero(Integer numero) {
+		this.numero = numero;
+	}
+
+	public String getComplemento() {
+		return complemento;
+	}
+
+	public void setComplemento(String complemento) {
+		this.complemento = complemento;
+	}
+	
+	
+	
+	
+
+	public Cep getCep() {
 		return cep;
 	}
 
-	public void setEndereco(Cep cep) {
+	public void setCep(Cep cep) {
 		this.cep = cep;
 	}
-
-	
 
 	@Override
 	public int hashCode() {
@@ -93,8 +116,16 @@ public class Fornecedor implements Serializable {
 		Fornecedor other = (Fornecedor) obj;
 		return Objects.equals(id, other.id);
 	}
+	
+	
 
 	
+
+	@Override
+	public String toString() {
+		return "Id: " + id + "\nNome: " + nome + "\nCNPJ: " + cnpj + "\nIncrição Estadual: " + ie +"\n"+ cep
+				+ "\nNumero: " + numero + "\nComplemento: " + complemento +"\n";
+	}
 
 	public static boolean validarCNPJ(String cnpj) {
 	    cnpj = cnpj.replace(".", "").replace("-", "").replace("/", ""); // Remove caracteres especiais
@@ -139,6 +170,8 @@ public class Fornecedor implements Serializable {
 	    // Verifica se os dígitos calculados são iguais aos dígitos informados
 	    return Integer.parseInt(cnpj.substring(12, 13)) == digito1 && Integer.parseInt(cnpj.substring(13, 14)) == digito2;
 	}
+
+
 
 
 }
