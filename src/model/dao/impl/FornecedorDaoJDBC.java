@@ -101,10 +101,11 @@ public class FornecedorDaoJDBC implements FornecedorDao {
 		PreparedStatement st = null;
 		if (obj != null) {
 			try {
-				st = conn.prepareStatement("DELETE FROM fornecedor INNER JOIN cep " + "WHERE Id = ?");
+				st = conn.prepareStatement("DELETE FROM fornecedor " + "WHERE Id = ?");
 
 				st.setInt(1, id);
 				st.executeUpdate();
+				JOptionPane.showMessageDialog(null, "Fornecedor deletado", "", JOptionPane.WARNING_MESSAGE);
 
 			} catch (SQLException e) {
 				throw new DbException(e.getMessage());
@@ -112,7 +113,7 @@ public class FornecedorDaoJDBC implements FornecedorDao {
 				DB.closeStatement(st);
 			}
 		} else {
-			System.out.println("fornecedor com id: " + id + " não encontrado");
+			JOptionPane.showMessageDialog(null, "Fornecedor não encontrado", "", JOptionPane.WARNING_MESSAGE);
 		}
 	}
 
@@ -154,7 +155,8 @@ public class FornecedorDaoJDBC implements FornecedorDao {
 	}
 
 	@Override
-	public List<Fornecedor> findAll() {
+	public String findAll() {
+		StringBuilder sb = new StringBuilder();
 		PreparedStatement st = null;
 		ResultSet rs = null;
 		try {
@@ -174,8 +176,9 @@ public class FornecedorDaoJDBC implements FornecedorDao {
 
 				Fornecedor obj = instantiateFornecedor(rs, cep);
 				list.add(obj);
+				sb.append(obj.toString());
 			}
-			return list;
+			return sb.toString();
 		} catch (SQLException e) {
 			throw new DbException(e.getMessage());
 		} finally {

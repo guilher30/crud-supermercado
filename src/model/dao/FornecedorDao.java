@@ -15,7 +15,7 @@ public interface FornecedorDao {
 
 	Fornecedor findById(Integer id);
 
-	List<Fornecedor> findAll();
+	String findAll();
 	
 	
 }

@@ -26,11 +26,6 @@ public class Fornecedor implements Serializable {
 		super();
 		this.id = id;
 		this.nome = nome;
-
-		while (!validarCNPJ(cnpj)) {
-			cnpj = JOptionPane.showInputDialog("CNPJ Invalido! Digite novamente: ");
-		}
-		System.out.println("CNPJ VALIDO");
 		this.cnpj = cnpj;
 		this.ie = ie;
 		this.cep = cep;
@@ -124,7 +119,7 @@ public class Fornecedor implements Serializable {
 	@Override
 	public String toString() {
 		return "Id: " + id + "\nNome: " + nome + "\nCNPJ: " + cnpj + "\nIncrição Estadual: " + ie +"\n"+ cep
-				+ "\nNumero: " + numero + "\nComplemento: " + complemento +"\n";
+				+ "\nNumero: " + numero + "\nComplemento: " + complemento +"\n\n";
 	}
 
 	public static boolean validarCNPJ(String cnpj) {

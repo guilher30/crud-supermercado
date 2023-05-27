@@ -23,9 +23,6 @@ public class Funcionario implements Serializable {
 		this.id = id;
 		this.nome = nome;
 		this.rg = rg;
-		while (!validarCPF(cpf)) {
-			cpf = JOptionPane.showInputDialog("CPF Invalido! Digite novamente: ");
-		}
 		this.cpf = cpf;
 
 	}
@@ -81,7 +78,7 @@ public class Funcionario implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Funcionario [id=" + id + ", nome=" + nome + ", rg=" + rg + ", cpf=" + cpf + "]";
+		return "Funcionario" + "\nId:" + id + "\nNome: " + nome + "\nRG: " + rg + "\nCPF:" + cpf;
 	}
 
 	public boolean validarCPF(String cpf) {
@@ -144,7 +141,7 @@ public class Funcionario implements Serializable {
 		}
 		
 		}catch(NumberFormatException e) {
-			JOptionPane.showMessageDialog(null, "Formato invalido, digite apenas numeros!!!", "Validação de RG: ", JOptionPane.WARNING_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Formato invalido, digite apenas numeros, sem pontos traços e espaços!!", "Validação de RG: ", JOptionPane.WARNING_MESSAGE);
 			valida = false;
 		}
 		return valida;

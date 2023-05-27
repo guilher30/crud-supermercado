@@ -93,6 +93,7 @@ public class FuncionarioDaoJDBC implements FuncionarioDao {
 
 			st.setInt(1, id);
 			st.executeUpdate();
+			JOptionPane.showMessageDialog(null, "Funcionario deletado", "", JOptionPane.WARNING_MESSAGE);
 			
 			
 		} catch (SQLException e) {
@@ -101,7 +102,7 @@ public class FuncionarioDaoJDBC implements FuncionarioDao {
 			DB.closeStatement(st);
 		}
 		}else {
-			System.out.println("Produto com id: " + id + " não encontrado");
+			JOptionPane.showMessageDialog(null, "Funcionario não encontrado", "", JOptionPane.WARNING_MESSAGE);
 		}
 	}
 
@@ -136,7 +137,9 @@ public class FuncionarioDaoJDBC implements FuncionarioDao {
 	}
 
 	@Override
-	public List<Funcionario> findAll() {
+	public String findAll() {
+		
+		StringBuilder sb = new StringBuilder();
 		PreparedStatement st = null;
 		ResultSet rs = null;
 		try {
@@ -147,9 +150,10 @@ public class FuncionarioDaoJDBC implements FuncionarioDao {
 			while (rs.next()) {
 				Funcionario obj = instantiateFuncionario(rs);
 				list.add(obj);
+				sb.append(obj.toString());
 			}
 
-			return list;
+			return sb.toString();
 		} catch (SQLException e) {
 			throw new DbException(e.getMessage());
 		} finally {

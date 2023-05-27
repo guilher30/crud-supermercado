@@ -15,7 +15,7 @@ public interface FuncionarioDao {
 
 	Funcionario findById(Integer id);
 
-	List<Funcionario> findAll();
+	String findAll();
 	
 	
 }
