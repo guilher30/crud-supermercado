@@ -27,57 +27,58 @@ public class FuncionarioDaoJDBC implements FuncionarioDao {
 	public void insert(Funcionario obj) {
 		PreparedStatement st = null;
 		try {
-			st = conn.prepareStatement("INSERT INTO funcionario " 
-		+ "(Nome, Rg, Cpf) "	
-		+ "VALUES " 
-		+ "(?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+			st = conn.prepareStatement("INSERT INTO funcionario " + "(Nome, Rg, Cpf) " + "VALUES " + "(?, ?, ?)",
+					Statement.RETURN_GENERATED_KEYS);
 			st.setString(1, obj.getNome());
 			st.setString(2, obj.getRg());
 			st.setString(3, obj.getCpf());
-			if(obj.validarCPF(obj.getCpf())) {
-			int rowsAffected = st.executeUpdate();
-			if (rowsAffected > 0) {
-				ResultSet rs = st.getGeneratedKeys();
-				if (rs.next()) {
-					int id = rs.getInt(1);
-					obj.setId(id);
-					DB.closeResultSet(rs);
+			if (obj.validarCPF(obj.getCpf())) {
+				int rowsAffected = st.executeUpdate();
+				if (rowsAffected > 0) {
+					ResultSet rs = st.getGeneratedKeys();
+					if (rs.next()) {
+						int id = rs.getInt(1);
+						obj.setId(id);
+						DB.closeResultSet(rs);
+					}
+				} else {
+					throw new DbException("Erro inesperado, nenhuma linha foi alterada");
 				}
 			} else {
-				throw new DbException("Erro inesperado, nenhuma linha foi alterada");
+				System.out.println("CPF invalido");
 			}
-		}else {
-			System.out.println("CPF invalido");
-		}
-		
+
 		} catch (SQLException e) {
 			throw new DbException(e.getMessage());
 		} finally {
 			DB.closeStatement(st);
 		}
-		
+
 	}
 
 	@Override
 	public void update(Funcionario obj, Integer id) {
-		PreparedStatement st = null;
-		try {
-			st = conn.prepareStatement("UPDATE funcionario " + "SET Nome = ?, Rg = ?, Cpf = ?" + "WHERE Id = ?");
-			st.setString(1, obj.getNome());
-			st.setString(2, obj.getRg());
-			st.setString(3, obj.getCpf());
-			st.setInt(4, obj.getId());
-			if(obj.validarCPF(obj.getCpf())) {
-				st.executeUpdate();
-			}else {
-				JOptionPane.showMessageDialog(null, "CPF INVALIDO");
-			}
-			
+		FuncionarioDao funcionarioDao = DaoFactory.createFuncionarioDao();
+		Funcionario f = funcionarioDao.findById(id);
 
-		} catch (SQLException e) {
-			throw new DbException(e.getMessage());
-		} finally {
-			DB.closeStatement(st);
+		PreparedStatement st = null;
+		if (f != null) {
+			try {
+				st = conn.prepareStatement("UPDATE funcionario " + "SET Nome = ?, Rg = ?, Cpf = ?" + "WHERE Id = ?");
+				st.setString(1, obj.getNome());
+				st.setString(2, obj.getRg());
+				st.setString(3, obj.getCpf());
+				st.setInt(4, id);
+
+				st.executeUpdate();
+
+			} catch (SQLException e) {
+				throw new DbException(e.getMessage());
+			} finally {
+				DB.closeStatement(st);
+			}
+		} else {
+			JOptionPane.showMessageDialog(null, "Nenhum funcionario com o Id = " + id + " foi encontrado", "", JOptionPane.WARNING_MESSAGE);
 		}
 
 	}
@@ -87,21 +88,20 @@ public class FuncionarioDaoJDBC implements FuncionarioDao {
 		FuncionarioDao funcionarioDao = DaoFactory.createFuncionarioDao();
 		Funcionario obj = funcionarioDao.findById(id);
 		PreparedStatement st = null;
-		if(obj != null) {
-		try {
-			st = conn.prepareStatement("DELETE FROM funcionario " + "WHERE Id = ?");
+		if (obj != null) {
+			try {
+				st = conn.prepareStatement("DELETE FROM funcionario " + "WHERE Id = ?");
 
-			st.setInt(1, id);
-			st.executeUpdate();
-			JOptionPane.showMessageDialog(null, "Funcionario deletado", "", JOptionPane.WARNING_MESSAGE);
-			
-			
-		} catch (SQLException e) {
-			throw new DbException(e.getMessage());
-		} finally {
-			DB.closeStatement(st);
-		}
-		}else {
+				st.setInt(1, id);
+				st.executeUpdate();
+				JOptionPane.showMessageDialog(null, "Funcionario deletado", "", JOptionPane.WARNING_MESSAGE);
+
+			} catch (SQLException e) {
+				throw new DbException(e.getMessage());
+			} finally {
+				DB.closeStatement(st);
+			}
+		} else {
 			JOptionPane.showMessageDialog(null, "Funcionario não encontrado", "", JOptionPane.WARNING_MESSAGE);
 		}
 	}
@@ -138,7 +138,7 @@ public class FuncionarioDaoJDBC implements FuncionarioDao {
 
 	@Override
 	public String findAll() {
-		
+
 		StringBuilder sb = new StringBuilder();
 		PreparedStatement st = null;
 		ResultSet rs = null;

@@ -518,9 +518,18 @@ public class ApresentacaoDeTela {
 				String rg = rgField.getText();
 				String cpf = cpfField.getText();
 
-				// Atualizar o funcionário com os novos dados informados
+				FuncionarioDao funcionarioDao = DaoFactory.createFuncionarioDao();
 
-				formularioAtualizarFuncionario.dispose();
+				Funcionario f = new Funcionario(null, nome, rg, cpf);
+				if (f.validarCPF(cpf) && f.validarRG(rg)) {
+					funcionarioDao.update(f, id);
+					JOptionPane.showMessageDialog(formularioAtualizarFuncionario, "Dados atualizados com sucesso!");
+				} else {
+					if (!f.validarCPF(cpf)) {
+						JOptionPane.showMessageDialog(null, "CPF INVALIDO", "Validação de Cpf: ",
+								JOptionPane.WARNING_MESSAGE);
+					}
+				}
 			}
 		});
 
@@ -569,12 +578,22 @@ public class ApresentacaoDeTela {
 				String cnpj = cnpjField.getText();
 				String inscricaoEstadual = inscricaoEstadualField.getText();
 				String cep = cepField.getText();
-				String numero = numeroField.getText();
+				String numeroTxt = numeroField.getText();
+				int numero = Integer.parseInt(numeroTxt);
+
 				String complemento = complementoField.getText();
 
-				// Atualizar o fornecedor com os novos dados informados
+				FornecedorDao fornecedorDao = DaoFactory.createFornecedorDao();
+				Fornecedor f = new Fornecedor(null, nome, cnpj, inscricaoEstadual, null, numero, complemento);
+				if (Fornecedor.validarCNPJ(cnpj)) {
+					fornecedorDao.update(f, id, cep);
+					JOptionPane.showMessageDialog(null, "Fornecedor atualizado com sucesso", "UPDATES ",
+							JOptionPane.WARNING_MESSAGE);
+				} else {
+					JOptionPane.showMessageDialog(null, "CNPJ INVALIDO", "Validação de CNPJ: ",
+							JOptionPane.WARNING_MESSAGE);
+				}
 
-				formularioAtualizarFornecedor.dispose();
 			}
 		});
 
@@ -725,7 +744,7 @@ public class ApresentacaoDeTela {
 	private static void exibirResultadoPesquisa(String resultado) {
 		JFrame frameResultado = new JFrame();
 		frameResultado.setTitle("Resultado da Pesquisa");
-		frameResultado.setSize(300, 200);
+		frameResultado.setSize(400, 500);
 		frameResultado.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frameResultado.setLayout(new BorderLayout());
 
@@ -746,43 +765,11 @@ public class ApresentacaoDeTela {
 		frameResultado.setVisible(true);
 	}
 
-	private static String buscarTodosFuncionarios() {
-		// Lógica para buscar todos os funcionários no sistema
 
-		String resultado = ""; // Resultado da pesquisa
 
-		// Preencher o resultado com os dados dos funcionários
+	
 
-		return resultado;
-	}
+	
 
-	private static String buscarTodosFornecedores() {
-		// Lógica para buscar todos os fornecedores no sistema
 
-		String resultado = ""; // Resultado da pesquisa
-
-		// Preencher o resultado com os dados dos fornecedores
-
-		return resultado;
-	}
-
-	private static String buscarFuncionarioPorId(int id) {
-		// Lógica para buscar um funcionário por ID no sistema
-
-		String resultado = ""; // Resultado da pesquisa
-
-		// Preencher o resultado com os dados do funcionário encontrado
-
-		return resultado;
-	}
-
-	private static String buscarFornecedorPorId(int id) {
-		// Lógica para buscar um fornecedor por ID no sistema
-
-		String resultado = ""; // Resultado da pesquisa
-
-		// Preencher o resultado com os dados do fornecedor encontrado
-
-		return resultado;
-	}
 }

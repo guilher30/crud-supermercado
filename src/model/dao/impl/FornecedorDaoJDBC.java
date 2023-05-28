@@ -65,33 +65,45 @@ public class FornecedorDaoJDBC implements FornecedorDao {
 	}
 
 	@Override
-	public void update(Fornecedor obj,Integer id) {
-		
-		
-		
+	public void update(Fornecedor obj, Integer id, String numeroCep) {
 		PreparedStatement st = null;
-		try {
-			st = conn.prepareStatement("UPDATE fornecedor " 
-					+ "SET Nome = ?, Cnpj = ?, Ie = ?, " 
-				 + "numero = ?,  complemento = ? WHERE Id = ?");
-			st.setString(1, obj.getNome());
-			st.setString(2, obj.getCnpj());
-			st.setString(3, obj.getIe());
-		
-			st.setInt(4, obj.getNumero());
-			st.setString(5, obj.getComplemento());
-			st.setInt(6, id);
-			if (obj.validarCNPJ(obj.getCnpj())) {
-				st.executeUpdate();
-			} else {
-				System.out.println("Cnpj Invalido");
-			}
 
-		} catch (SQLException e) {
-			throw new DbException(e.getMessage());
-		} finally {
-			DB.closeStatement(st);
+		FornecedorDao funcionarioDao = DaoFactory.createFornecedorDao();
+		Fornecedor f = funcionarioDao.findById(id);
+		
+		Cep cep = buscarCep(numeroCep);
+
+		if (f != null) {
+			
+			if (cep != null) {
+				obj.setCep(cep);
+				try {
+					st = conn.prepareStatement("UPDATE fornecedor " + "SET Nome = ?, Cnpj = ?, Ie = ?, Cep_id = ?, "
+							+ "numero = ?,  complemento = ? WHERE Id = ?");
+					st.setString(1, obj.getNome());
+					st.setString(2, obj.getCnpj());
+					st.setString(3, obj.getIe());
+					st.setInt(4, obj.getCep().getId());
+					st.setInt(5, obj.getNumero());
+					st.setString(6, obj.getComplemento());
+					st.setInt(7, id);
+
+					st.executeUpdate();
+
+				} catch (SQLException e) {
+					throw new DbException(e.getMessage());
+				} finally {
+					DB.closeStatement(st);
+				}
+			} else {
+				JOptionPane.showMessageDialog(null, "CEP não encontrado na base de dados", "",
+						JOptionPane.WARNING_MESSAGE);
+			}
+		} else {
+			JOptionPane.showMessageDialog(null, "Fornecedor com Id: " + id + " não encontrado", "",
+					JOptionPane.WARNING_MESSAGE);
 		}
+
 	}
 
 	@Override
@@ -126,7 +138,7 @@ public class FornecedorDaoJDBC implements FornecedorDao {
 					+ "ON fornecedor.Cep_id = cep.Id " + "WHERE fornecedor.Id = ? ORDER BY Nome");
 			st.setInt(1, id);
 			rs = st.executeQuery();
-	
+
 			if (rs.next()) {
 				Cep cep = instantiateCep(rs);
 				Fornecedor obj = instantiateFornecedor(rs, cep);
