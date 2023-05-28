@@ -78,7 +78,8 @@ public class FuncionarioDaoJDBC implements FuncionarioDao {
 				DB.closeStatement(st);
 			}
 		} else {
-			JOptionPane.showMessageDialog(null, "Nenhum funcionario com o Id = " + id + " foi encontrado", "", JOptionPane.WARNING_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Nenhum funcionario com o Id = " + id + " foi encontrado", "",
+					JOptionPane.WARNING_MESSAGE);
 		}
 
 	}
@@ -125,6 +126,7 @@ public class FuncionarioDaoJDBC implements FuncionarioDao {
 			DB.closeStatement(st);
 			DB.closeResultSet(rs);
 		}
+
 	}
 
 	private Funcionario instantiateFuncionario(ResultSet rs) throws SQLException {

@@ -201,6 +201,7 @@ public class ApresentacaoDeTela {
 				Fornecedor f = new Fornecedor(null, nome, cnpj, inscricaoEstadual, null, numero, complemento);
 				if (Fornecedor.validarCNPJ(cnpj)) {
 					fornecedorDao.insert(f, cep);
+					JOptionPane.showMessageDialog(formularioCadastrarFornecedor, "Dados cadastrados com sucesso!");
 				} else {
 					JOptionPane.showMessageDialog(null, "CNPJ INVALIDO", "Validação de CNPJ: ",
 							JOptionPane.WARNING_MESSAGE);
@@ -310,7 +311,7 @@ public class ApresentacaoDeTela {
 				String resultado = fornecedorDao.findAll();
 
 				exibirResultadoPesquisa(resultado);
-				menuBuscarTodos.dispose();
+
 			}
 		});
 
@@ -384,18 +385,25 @@ public class ApresentacaoDeTela {
 
 		btnBuscar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				int id = Integer.parseInt(idField.getText());
-				FuncionarioDao funcionarioDao = DaoFactory.createFuncionarioDao();
+				try {
+					int id = Integer.parseInt(idField.getText());
+					FuncionarioDao funcionarioDao = DaoFactory.createFuncionarioDao();
 
-				Funcionario f = funcionarioDao.findById(id);
-				if (f != null) {
-					String resultado = f.toString();
-					exibirResultadoPesquisa(resultado);
-				} else {
-					JOptionPane.showMessageDialog(null, "Funcionario não encontrado", "", JOptionPane.WARNING_MESSAGE);
+					Funcionario f = funcionarioDao.findById(id);
+					if (f != null) {
+						String resultado = f.toString();
+						exibirResultadoPesquisa(resultado);
+					} else {
+						JOptionPane.showMessageDialog(null, "Funcionario não encontrado", "",
+								JOptionPane.WARNING_MESSAGE);
+					}
+
+				} catch (NumberFormatException e1) {
+					JOptionPane.showMessageDialog(null, "Formato invalido Id. Digite apenas numeros", "",
+							JOptionPane.WARNING_MESSAGE);
 				}
-
 			}
+
 		});
 
 		btnVoltar.addActionListener(new ActionListener() {
@@ -426,14 +434,20 @@ public class ApresentacaoDeTela {
 
 		btnBuscar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				int id = Integer.parseInt(idField.getText());
-				FornecedorDao fornecedorDao = DaoFactory.createFornecedorDao();
-				Fornecedor f = fornecedorDao.findById(id);
-				if (f != null) {
-					String resultado = f.toString();
-					exibirResultadoPesquisa(resultado);
-				} else {
-					JOptionPane.showMessageDialog(null, "Fornecedor não encontrado", "", JOptionPane.WARNING_MESSAGE);
+				try {
+					int id = Integer.parseInt(idField.getText());
+					FornecedorDao fornecedorDao = DaoFactory.createFornecedorDao();
+					Fornecedor f = fornecedorDao.findById(id);
+					if (f != null) {
+						String resultado = f.toString();
+						exibirResultadoPesquisa(resultado);
+					} else {
+						JOptionPane.showMessageDialog(null, "Fornecedor não encontrado", "",
+								JOptionPane.WARNING_MESSAGE);
+					}
+				} catch (NumberFormatException e1) {
+					JOptionPane.showMessageDialog(null, "Formato invalido de ID. Digite apenas numeros", "",
+							JOptionPane.WARNING_MESSAGE);
 				}
 
 			}
@@ -513,22 +527,27 @@ public class ApresentacaoDeTela {
 
 		btnAtualizar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				int id = Integer.parseInt(idField.getText());
-				String nome = nomeField.getText();
-				String rg = rgField.getText();
-				String cpf = cpfField.getText();
+				try {
+					int id = Integer.parseInt(idField.getText());
+					String nome = nomeField.getText();
+					String rg = rgField.getText();
+					String cpf = cpfField.getText();
 
-				FuncionarioDao funcionarioDao = DaoFactory.createFuncionarioDao();
+					FuncionarioDao funcionarioDao = DaoFactory.createFuncionarioDao();
 
-				Funcionario f = new Funcionario(null, nome, rg, cpf);
-				if (f.validarCPF(cpf) && f.validarRG(rg)) {
-					funcionarioDao.update(f, id);
-					JOptionPane.showMessageDialog(formularioAtualizarFuncionario, "Dados atualizados com sucesso!");
-				} else {
-					if (!f.validarCPF(cpf)) {
-						JOptionPane.showMessageDialog(null, "CPF INVALIDO", "Validação de Cpf: ",
-								JOptionPane.WARNING_MESSAGE);
+					Funcionario f = new Funcionario(null, nome, rg, cpf);
+					if (f.validarCPF(cpf) && f.validarRG(rg)) {
+						funcionarioDao.update(f, id);
+						JOptionPane.showMessageDialog(formularioAtualizarFuncionario, "Dados atualizados com sucesso!");
+					} else {
+						if (!f.validarCPF(cpf)) {
+							JOptionPane.showMessageDialog(null, "CPF INVALIDO", "Validação de Cpf: ",
+									JOptionPane.WARNING_MESSAGE);
+						}
 					}
+				} catch (NumberFormatException e1) {
+					JOptionPane.showMessageDialog(null, "Formato invalido de Id. Digite apenas numeros", "",
+							JOptionPane.WARNING_MESSAGE);
 				}
 			}
 		});
@@ -573,27 +592,31 @@ public class ApresentacaoDeTela {
 
 		btnAtualizar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				int id = Integer.parseInt(idField.getText());
-				String nome = nomeField.getText();
-				String cnpj = cnpjField.getText();
-				String inscricaoEstadual = inscricaoEstadualField.getText();
-				String cep = cepField.getText();
-				String numeroTxt = numeroField.getText();
-				int numero = Integer.parseInt(numeroTxt);
+				try {
+					int id = Integer.parseInt(idField.getText());
+					String nome = nomeField.getText();
+					String cnpj = cnpjField.getText();
+					String inscricaoEstadual = inscricaoEstadualField.getText();
+					String cep = cepField.getText();
+					String numeroTxt = numeroField.getText();
+					int numero = Integer.parseInt(numeroTxt);
 
-				String complemento = complementoField.getText();
+					String complemento = complementoField.getText();
 
-				FornecedorDao fornecedorDao = DaoFactory.createFornecedorDao();
-				Fornecedor f = new Fornecedor(null, nome, cnpj, inscricaoEstadual, null, numero, complemento);
-				if (Fornecedor.validarCNPJ(cnpj)) {
-					fornecedorDao.update(f, id, cep);
-					JOptionPane.showMessageDialog(null, "Fornecedor atualizado com sucesso", "UPDATES ",
-							JOptionPane.WARNING_MESSAGE);
-				} else {
-					JOptionPane.showMessageDialog(null, "CNPJ INVALIDO", "Validação de CNPJ: ",
+					FornecedorDao fornecedorDao = DaoFactory.createFornecedorDao();
+					Fornecedor f = new Fornecedor(null, nome, cnpj, inscricaoEstadual, null, numero, complemento);
+					if (Fornecedor.validarCNPJ(cnpj)) {
+						fornecedorDao.update(f, id, cep);
+						JOptionPane.showMessageDialog(null, "Fornecedor atualizado com sucesso", "UPDATES ",
+								JOptionPane.WARNING_MESSAGE);
+					} else {
+						JOptionPane.showMessageDialog(null, "CNPJ INVALIDO", "Validação de CNPJ: ",
+								JOptionPane.WARNING_MESSAGE);
+					}
+				} catch (NumberFormatException e1) {
+					JOptionPane.showMessageDialog(null, "Formato invalido de ID ou de Numero do endereço. Digite apenas numeros nesses campos", "",
 							JOptionPane.WARNING_MESSAGE);
 				}
-
 			}
 		});
 
@@ -681,10 +704,15 @@ public class ApresentacaoDeTela {
 
 		btnExcluir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				int id = Integer.parseInt(idField.getText());
-				FuncionarioDao funcionarioDao = DaoFactory.createFuncionarioDao();
-				funcionarioDao.deleteById(id);
+				try {
+					int id = Integer.parseInt(idField.getText());
+					FuncionarioDao funcionarioDao = DaoFactory.createFuncionarioDao();
+					funcionarioDao.deleteById(id);
 
+				} catch (NumberFormatException e1) {
+					JOptionPane.showMessageDialog(null, "Formato invalido de ID. Digite apenas numeros", "",
+							JOptionPane.WARNING_MESSAGE);
+				}
 
 			}
 		});
@@ -717,12 +745,15 @@ public class ApresentacaoDeTela {
 
 		btnExcluir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				int id = Integer.parseInt(idField.getText());
+				try {
+					int id = Integer.parseInt(idField.getText());
 
-				FornecedorDao fornecedorDao = DaoFactory.createFornecedorDao();
-				fornecedorDao.deleteById(id);
-
-			
+					FornecedorDao fornecedorDao = DaoFactory.createFornecedorDao();
+					fornecedorDao.deleteById(id);
+				} catch (NumberFormatException e1) {
+					JOptionPane.showMessageDialog(null, "Formato invalido de Id. Digite apenas numeros", "",
+							JOptionPane.WARNING_MESSAGE);
+				}
 			}
 		});
 
@@ -764,12 +795,5 @@ public class ApresentacaoDeTela {
 
 		frameResultado.setVisible(true);
 	}
-
-
-
-	
-
-	
-
 
 }
